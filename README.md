@@ -10,6 +10,6 @@ Overall, this comment reveals critical errors in this paper which undermine the 
 
 - The comment.
 
-- The appendix
+- The appendix.
   
 - The replication package.
