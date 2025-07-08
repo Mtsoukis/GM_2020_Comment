@@ -1,7 +1,5 @@
 # Comment on Giorcelli & Moser (2020), “Copyrights and Creativity: Evidence from Italian Opera in the Napoleonic Age,” *Journal of Political Economy*.  
 
-## Overview
-
 Giorcelli & Moser (2020), henceforth GM2020, study how intellectual property enforcement impacts innovation. They exploit the staggered introduction of copyright protections across Italian states during the Napoleonic era to assess their impact on opera production. Using data on Opera premieres, they find that copyright introduction boosted the production of new operas works and their quality. 
 
 Giorcelli & Moser (2020), henceforth GM2020, exploit the staggered rollout of formal copyright protections across Italian states during the Napoleonic era to measure how IP enforcement shapes cultural innovation. Using data on opera premieres, they find that the introduction of copyright led to increases in both the quantity and quality of new operas. Specifically, they implement a differences-in-differences design, where Napoleon's copyright law is applied only to Venetia and Lombardy in 1801, and other Italian states conquered by Napoleon do not.  
