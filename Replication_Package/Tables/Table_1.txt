@@ -1,0 +1,8 @@
+
+\begin{tabular}{llrrr}
+\toprule
+  & operas\_1781\_1820 & operas\_copyright\_total & composer\_level & city\_level\_operas\_1781\_1820\\
+\midrule
+Operas & 657 & 731.6 & 704 & 617\\
+\bottomrule
+\end{tabular}

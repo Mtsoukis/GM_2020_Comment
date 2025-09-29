@@ -1,0 +1,8 @@
+\begin{tabular}[t]{lrr}
+\toprule
+State & 1781-1800 & 1801-1820\\
+\midrule
+Lombardy and Venetia & -1 & 28\\
+Other States & 10 & 10\\
+\bottomrule
+\end{tabular}
