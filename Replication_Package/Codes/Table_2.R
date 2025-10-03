@@ -5,7 +5,6 @@ library(haven)
 operas_1781_1820 <- read_dta("Data_GM2020/operas_1781_1820.dta")
 operas_composer  <- read_dta("Data_GM2020/composer_level_data.dta")
 
-# ---- Define groups and periods ----
 # Group: Lombardy & Venetia vs Other States
 grp_op <- ifelse(operas_1781_1820$state %in% c("lombardy","venetia"),
                  "Lombardy and Venetia", "Other States")
@@ -16,7 +15,6 @@ grp_cp <- ifelse(operas_composer$copyright == 1,
 per_op <- ifelse(operas_1781_1820$year <= 1800, "1781-1800", "1801-1820")
 per_cp <- ifelse(operas_composer$year  <= 1800, "1781-1800", "1801-1820")
 
-# ---- Sums by group × period ----
 # Operas (state-year file)
 op <- tapply(operas_1781_1820$operas, list(grp_op, per_op), sum, na.rm = TRUE)
 
@@ -34,7 +32,6 @@ diff_tab <- cp - op
 diff_tab[is.na(diff_tab)] <- 0
 diff_tab <- round(diff_tab)
 
-# ---- Write LaTeX tabular (no table environment) ----
 dir.create("Tables", showWarnings = FALSE, recursive = TRUE)
 lines <- c(
   "\\begin{tabular}[t]{lrr}",

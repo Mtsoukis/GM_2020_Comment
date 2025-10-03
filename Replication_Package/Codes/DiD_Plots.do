@@ -1,5 +1,5 @@
 
-import delimited "/Users/mariostsoukis/Documents/GitHub/GM_2020_Comment/Replication_Package/Data_New/Opening_Night_Operas_it_cleaned.csv", clear
+import delimited "${here}/Replication_Package/Data_New/Opening_Night_Operas_it_cleaned.csv", clear
 
 encode state, gen(state1)
 
@@ -45,7 +45,7 @@ clear all
 
 
 
-use "/Users/mariostsoukis/Documents/GitHub/GM_2020_Comment/Replication_Package/Data_GM2020/operas_1781_1820.dta", clear
+use "${here}/Replication_Package/Data_GM2020/operas_1781_1820.dta", clear
 
 
 * generate treatment×year interactions (excluding 1781–1790)
