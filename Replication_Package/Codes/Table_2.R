@@ -33,7 +33,6 @@ diff_tab <- cp - op
 diff_tab[is.na(diff_tab)] <- 0
 diff_tab <- round(diff_tab)
 
-dir.create("Tables", showWarnings = FALSE, recursive = TRUE)
 lines <- c(
   "\\begin{tabular}[t]{lrr}",
   "\\toprule",
