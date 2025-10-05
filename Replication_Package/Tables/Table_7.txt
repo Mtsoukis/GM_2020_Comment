@@ -1,0 +1,9 @@
+
+\begin{tabular}{lrrrrr}
+\toprule
+State & Pre-1801 & Post-1801 & $\Delta\%$ & t-value & p-value\\
+\midrule
+Lombardia + Venetia & 8.32 & 8.68 & 4.33 & 0.33 & 0.74\\
+Other States & 6.58 & 3.64 & -44.68 & -4.54 & 0.00\\
+\bottomrule
+\end{tabular}
