@@ -5,9 +5,10 @@ options(scipen = 999)
 
 library(tidyverse)
 library(haven)
+library(here)
 
-data_path   <- "Data_GM2020/"
-output_path <- "Figures/"
+data_path   <- here::here("Data_GM2020")
+output_path <- here::here("Figures")
 
 operas <- read_dta(file.path(data_path, "operas_1781_1820.dta")) %>%
   select(year, state, operas)

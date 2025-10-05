@@ -6,11 +6,15 @@ options(scipen = 999)
 library(tidyverse)  
 library(haven)    
 
-# ---- Load data ----
-annals <- read.csv("Data_New/Loewenberg_1781_1820_it_raw.csv", header = TRUE)
+figure_path <- here::here("Figures")
+
+# Loewenberg data ----
+annals_path <-here::here("Data_New", "Loewenberg_1781_1820_it_raw.csv")
+annals <- read.csv(annals_path, header = TRUE)
 
 # GM2020 data
-gm <- read_dta("Data_GM2020/operas_1781_1820.dta") %>%
+gm_path <-here::here("Data_GM2020", "operas_1781_1820.dta")
+gm <- read_dta(gm_path) %>%
   select(year, state, operas_annals)
 
 annals <- annals %>%
@@ -69,5 +73,4 @@ p <- ggplot(df_all, aes(x = year)) +
   theme_minimal() +
   theme(plot.title = element_text(hjust = 0.5))
 
-dir.create("Figures", recursive = TRUE, showWarnings = FALSE)
-ggsave(filename = "Figure_6.png", path = "Figures", width = 8, height = 6, dpi = 400)
+ggsave(filename = "Figure_6.png", path = figure_path, width = 8, height = 6, dpi = 400)

@@ -9,10 +9,10 @@ suppressPackageStartupMessages({
 })
 
 # -------------------- Paths --------------------
-input_path <- "Data_New/Opening_Night_Operas_it_raw.csv"
-gm_path <- "Data_GM2020/operas_1781_1820.dta"
+input_path <- here::here("Data_New", "Opening_Night_Operas_it_raw.csv")
+gm_path <- here::here("Data_GM2020", "operas_1781_1820.dta")
 
-output_path <- "Figures"
+output_path <- here::here("Figures")
 dir.create(output_path, showWarnings = FALSE, recursive = TRUE)
 
 # -------------------- Helpers --------------------

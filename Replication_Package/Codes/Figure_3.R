@@ -4,12 +4,13 @@ options(stringsAsFactors = FALSE)
 options(scipen = 999)
 
 library(tidyverse)
+library(here)
 
-# ---- output path ----
-output_path <- "Figures/"
 
-# ---- load cleaned data ----
-df <- read.csv("Data_New/Opening_Night_Operas_it_cleaned.csv",
+output_path <- here::here("Figures")
+data_path   <- here::here("Data_New", "Opening_Night_Operas_it_cleaned.csv")
+
+df <- read.csv(data_path,
                header = TRUE, stringsAsFactors = FALSE) %>%
   mutate(year = as.numeric(year),
          Treatment = if_else(copyright == 1, "Lombardia + Venetia", "Other States"))

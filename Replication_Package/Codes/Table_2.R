@@ -2,8 +2,9 @@ rm(list = ls())
 
 library(haven)
 
-operas_1781_1820 <- read_dta("Data_GM2020/operas_1781_1820.dta")
-operas_composer  <- read_dta("Data_GM2020/composer_level_data.dta")
+operas_1781_1820 <- read_dta(here::here("Data_GM2020", "operas_1781_1820.dta"))
+operas_composer  <- read_dta(here::here("Data_GM2020", "composer_level_data.dta"))
+tables_path <- here::here("Tables")
 
 # Group: Lombardy & Venetia vs Other States
 grp_op <- ifelse(operas_1781_1820$state %in% c("lombardy","venetia"),
@@ -43,4 +44,5 @@ lines <- c(
   "\\bottomrule",
   "\\end{tabular}"
 )
-writeLines(lines, "Tables/Table_2.txt")
+
+writeLines(lines, file.path(tables_path, "Table_2.txt"))

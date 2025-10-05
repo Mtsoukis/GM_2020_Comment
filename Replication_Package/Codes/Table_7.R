@@ -1,7 +1,3 @@
-######## Average_Operas_it (recreated) ########
-# Input  : Data_New/Opening_Night_Operas_it_cleaned.csv
-# Output : Tables/Table_7.txt  (LaTeX table text)
-
 # Packages
 suppressPackageStartupMessages({
   library(dplyr)
@@ -9,17 +5,16 @@ suppressPackageStartupMessages({
   library(readr)
   library(knitr)
 })
+rm(list = ls())
+
 
 options(stringsAsFactors = FALSE, scipen = 999)
 
 # Paths
-ON_dta <- "Data_New/Opening_Night_Operas_it_cleaned.csv"
-out_file <- file.path("Tables", "Table_7.txt")
+ON_dta   <- here::here("Data_New", "Opening_Night_Operas_it_cleaned.csv")
+out_file <- here::here("Tables", "Table_7.txt")
 
 # Ensure output dir exists
-dir.create(dirname(out_file), recursive = TRUE, showWarnings = FALSE)
-
-# Load cleaned state-year data:
 # expected columns: year, state, operas, copyright, post1801, copyright_post1801
 df <- readr::read_csv(ON_dta, show_col_types = FALSE)
 
@@ -78,7 +73,3 @@ latex_tbl <- knitr::kable(
 )
 
 writeLines(latex_tbl, con = out_file)
-
-# (Optional) console print
-print(combined_table)
-message("Saved LaTeX table to: ", out_file)

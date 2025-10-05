@@ -15,9 +15,9 @@ library(kableExtra)
 # =========================
 # Paths
 # =========================
-ON_dta <- "Data_New/Opening_Night_Operas_it_raw.csv"
-mg_dta <- "Data_GM2020/operas_1781_1820.dta"
-
+ON_dta <- here::here("Data_New", "Opening_Night_Operas_it_raw.csv")
+mg_dta <- here::here("Data_GM2020", "operas_1781_1820.dta")
+out_file <- here::here("Tables", "Table_9.txt")
 
 df <- read.csv(ON_dta, header = TRUE, stringsAsFactors = FALSE)
 
@@ -116,4 +116,4 @@ latex_full <- kable(
 
 # extract only the tabular environment
 latex_tabular <- str_extract(latex_full, "\\\\begin\\{tabular\\}[\\s\\S]*?\\\\end\\{tabular\\}")
-writeLines(latex_tabular, "Tables/Table_9.txt")
+writeLines(latex_tabular, out_file)

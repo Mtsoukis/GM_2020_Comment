@@ -7,8 +7,8 @@ options(scipen = 999)
 library(tidyverse)
 library(haven)
 
-data_path   <- "Data_GM2020/"
-output_path <- "Figures/"
+data_path   <- here::here("Data_GM2020")
+output_path <- here::here("Figures")
 
 # -------------------------------
 # City-level aggregation

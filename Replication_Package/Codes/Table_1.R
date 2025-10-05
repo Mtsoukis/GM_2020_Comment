@@ -5,10 +5,10 @@ rm(list = ls())
 getwd()
 library(haven)
 
-operas_1781_1820 <- read_dta("Data_GM2020/operas_1781_1820.dta")
-operas_copyright_total <- read_dta("Data_GM2020/operas_copyright_total.dta")
-operas_composer <- read_dta("Data_GM2020/composer_level_data.dta")
-operas_cities <-read_dta("Data_GM2020/city_level_operas_1781_1820.dta")
+operas_1781_1820 <- read_dta(here::here("Data_GM2020", "operas_1781_1820.dta"))
+operas_copyright_total <- read_dta(here::here("Data_GM2020", "operas_copyright_total.dta"))
+operas_composer <- read_dta(here::here("Data_GM2020", "composer_level_data.dta"))
+operas_cities <- read_dta(here::here("Data_GM2020", "city_level_operas_1781_1820.dta"))
 
 # Counts
 n_operas_1781_1820  <- sum(operas_1781_1820$operas,     na.rm = TRUE)
@@ -31,7 +31,6 @@ rownames(tab_df) <- "Operas"
 names(tab_df) <- gsub("_", "\\_", names(tab_df))
 
 # Output 
-dir.create("Tables", showWarnings = FALSE, recursive = TRUE)
 library(knitr)
 latex_tab <- knitr::kable(
   tab_df,
@@ -42,4 +41,4 @@ latex_tab <- knitr::kable(
   digits   = c(0, 1, 0, 0)
 )
 
-writeLines(latex_tab, "Tables/Table_1.txt")
+writeLines(latex_tab, here::here("Tables", "Table_1.txt"))
