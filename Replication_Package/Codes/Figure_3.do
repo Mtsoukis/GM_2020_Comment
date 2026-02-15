@@ -85,7 +85,7 @@ graph export "${figures}/Figure_3.png", replace
 gen copyright = (state == "Venetia" | state == "Lombardia")
 gen copyright_post1801 = (copyright == 1 & year > 1800)
 
-* Base pre-period trend (as in your original code)
+* Base pre-period trend
 gen prebase = cond(year <= 1800, year - 1801, 0)
 
 * State-specific pretrends

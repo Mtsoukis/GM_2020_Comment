@@ -6,6 +6,7 @@ options(scipen = 999)
 library(tidyverse)  
 library(haven)    
 library(kableExtra)
+library(kableExtra)
 
 figure_path <- here::here("Figures")
 tables_path <- here::here("Tables")
@@ -144,13 +145,8 @@ lines <- c(
 
 writeLines(lines, file.path(tables_path, "Table_10.txt"))
 
-# How many Years do they crazy lie?
+# How many Years do they crazy lie?!
 
-# ---- Years where GM2020 == 0 but Loewenberg >= 1, by Venetia / Lombardy / Other ----
-# relies on annals_merged from your script: columns year, state, Count, operas_annals
-
-library(dplyr)
-library(kableExtra)
 
 # ---- Years where GM2020 == 0 but Loewenberg >= 1, by Venetia / Lombardy / Other ----
 df_grouped <- annals_merged %>%
@@ -198,8 +194,7 @@ cat("\nTotal year × group combinations:", total_years, "\n")
 
 ## Time to print examples: 
 
-# ---- Build (State, Year) keys from your computed years_with_gap ----
-# ---- Build (State, Year) keys from your computed years_with_gap ----
+# ---- Build (State, Year) keys from computed years_with_gap ----
 keys <- years_with_gap %>%
   distinct(group, year) %>%
   mutate(group = as.character(group),
@@ -214,7 +209,7 @@ cap_first <- function(x) {
 }
 
 # ---- Normalize Loewenberg rows to 3 groups & keep the needed columns ----
-# Uses *actual* CSV column names: Opera_Name, Composer, city, year, State_Region
+# Uses CSV column names: Opera_Name, Composer, city, year, State_Region
 keys <- years_with_gap %>%
   distinct(group, year) %>%
   mutate(group = as.character(group),
@@ -413,7 +408,7 @@ library(stringr)
 
 cap_words <- function(x) ifelse(is.na(x) | x == "", x, stringr::str_to_title(trimws(x)))
 
-# Ensure Loewenberg rows have slug `state` exactly per your mapping
+# Ensure Loewenberg rows have slug `state`
 annals_enriched_state <- annals %>%
   mutate(
     year         = as.integer(year),
