@@ -5,7 +5,11 @@ options(scipen = 999)
 
 library(tidyverse)
 library(haven)
+library(extrafont)
 library(here)
+
+#font_import(pattern = "Computer Modern", prompt = FALSE)
+#loadfonts(quiet = TRUE)
 
 data_path   <- here::here("Data_GM2020")
 output_path <- here::here("Figures")
@@ -28,15 +32,18 @@ message(sprintf("R^2 = %.3f", r2_value))
 
 # Scatter plot with regression line
 p <- ggplot(merged_data, aes(x = season_count, y = operas)) +
-  geom_point(alpha = 0.75, size = 2, color = "black") +
-  geom_smooth(method = "lm", se = FALSE, linewidth = 0.8, color = "turquoise3") +
+  geom_point(alpha = 0.75, size = 3, color = "black") +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 1, color = "dodgerblue4") +
   labs(
     title = "",
     x = "Season Count (operas_1781_1820_repeat_premiere.dta)",
     y = "Operas (Main Data)"
   ) +
-  theme_minimal(base_size = 12) +
-  theme(plot.title = element_text(hjust = 0.5))
+  theme_minimal(base_size = 16) +
+  theme(plot.title = element_text(hjust = 0.5), panel.grid.minor = element_blank(),  # removes minor grid lines
+        axis.line = element_line(color = "black"),  # adds clean axes lines
+        panel.border = element_blank()              # keeps it minimal
+  )
 
 ggsave(
   filename = file.path(output_path, "Figure_1.png"),

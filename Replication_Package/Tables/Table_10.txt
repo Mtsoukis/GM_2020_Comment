@@ -1,9 +1,10 @@
-
-\begin{tabular}{lll}
+\begin{tabular}{lcccccc}
 \toprule
-  & GM2020 & Me\\
+\multicolumn{1}{c}{ } & \multicolumn{3}{c}{1781--1800} & \multicolumn{3}{c}{1801--1820} \\
+\cmidrule(l{3pt}r{3pt}){2-4} \cmidrule(l{3pt}r{3pt}){5-7}
+State & GM2020 & Loewenberg & $\Delta$ & GM2020 & Loewenberg & $\Delta$\\
 \midrule
-Estimate & 0.400*** & 0.400**\\
-Std. Error & (0.153) & (0.217)\\
+Lombardy--Venetia & 5 & 28 & 23 & 24 & 39 & 15\\
+Other states & 10 & 39 & 29 & 19 & 24 & 5\\
 \bottomrule
 \end{tabular}

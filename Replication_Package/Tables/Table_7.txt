@@ -1,9 +1,34 @@
-
-\begin{tabular}{lrrrrr}
-\toprule
-State & Pre-1801 & Post-1801 & $\Delta\%$ & t-value & p-value\\
-\midrule
-Lombardia + Venetia & 8.32 & 8.68 & 4.33 & 0.33 & 0.74\\
-Other States & 6.58 & 3.64 & -44.68 & -4.54 & 0.00\\
-\bottomrule
+\begin{table}[htbp]\centering
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\caption{Panel B: Excluding Top 10% Composers}
+\begin{tabular}{l*{7}{c}}
+\hline\hline
+            &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}&\multicolumn{1}{c}{(7)}\\
+            &\multicolumn{1}{c}{All}&\multicolumn{1}{c}{Annals Cnt}&\multicolumn{1}{c}{Annals Shr}&\multicolumn{1}{c}{Met Cnt}&\multicolumn{1}{c}{Met Shr}&\multicolumn{1}{c}{Amazon Cnt}&\multicolumn{1}{c}{Amazon Shr}\\
+\hline
+copyright\_post1801&       1.462   &       0.150   &      0.0374   &       0.350   &       0.238   &      -0.119   &      -0.119   \\
+            &     (2.313)   &     (0.263)   &    (0.0658)   &     (0.370)   &     (0.213)   &     (0.264)   &     (0.264)   \\
+\hline
+\(N\)       &         231   &         231   &         231   &         231   &         231   &         231   &         231   \\
+\hline\hline
+\multicolumn{8}{l}{\footnotesize Standard errors in parentheses}\\
+\multicolumn{8}{l}{\footnotesize * p<0.05, ** p<0.01, *** p<0.001}\\
 \end{tabular}
+\end{table}
+\begin{table}[htbp]\centering
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\caption{Panel C: Excluding Top 20% Composers}
+\begin{tabular}{l*{7}{c}}
+\hline\hline
+            &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}&\multicolumn{1}{c}{(7)}\\
+            &\multicolumn{1}{c}{All}&\multicolumn{1}{c}{Annals Cnt}&\multicolumn{1}{c}{Annals Shr}&\multicolumn{1}{c}{Met Cnt}&\multicolumn{1}{c}{Met Shr}&\multicolumn{1}{c}{Amazon Cnt}&\multicolumn{1}{c}{Amazon Shr}\\
+\hline
+copyright\_post1801&   -1.49e-15   &    2.03e-16   &    1.01e-16   &    1.01e-16   &    5.07e-17   &   -3.04e-15   &   -2.00e-15   \\
+            &         (.)   &         (.)   &         (.)   &         (.)   &         (.)   &         (.)   &         (.)   \\
+\hline
+\(N\)       &         158   &         158   &         158   &         158   &         158   &         158   &         158   \\
+\hline\hline
+\multicolumn{8}{l}{\footnotesize Standard errors in parentheses}\\
+\multicolumn{8}{l}{\footnotesize * p<0.05, ** p<0.01, *** p<0.001}\\
+\end{tabular}
+\end{table}

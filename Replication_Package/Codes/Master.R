@@ -1,7 +1,8 @@
 rm(list = ls())
 
-codes_dir <- ("Codes")
+codes_dir <- here::here("Codes")
 scripts <- list.files(codes_dir, pattern = "\\.[Rr]$", recursive = TRUE, full.names = TRUE)
+scripts <- scripts[!grepl("Master\\.R$", scripts)]
 
 for (s in scripts) {
   cat(">>> Running:", s, "\n")

@@ -1,8 +1,11 @@
-\begin{tabular}[t]{lrr}
+\begin{tabular}[t]{llccc}
 \toprule
-State & 1781-1800 & 1801-1820\\
+\multicolumn{2}{c}{ } & \multicolumn{3}{c}{Datasets} \\
+\cmidrule(l{3pt}r{3pt}){3-5}
+  & Paper & operas\_1781\_1820 & composer\_level\_data & city\_level\_operas\_1781\_1820\\
 \midrule
-Lombardy and Venetia & -1 & 28\\
-Other States & 10 & 10\\
+Annals &  & 58 & 80 & 87\\
+Amazon &  & 39 & 57 & 52\\
+Met &  & 55 & 57 & 71\\
 \bottomrule
 \end{tabular}

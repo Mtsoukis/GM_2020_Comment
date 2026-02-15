@@ -1,0 +1,17 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{5}{c}}
+\hline\hline
+            &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}\\
+            &\multicolumn{1}{c}{Count}&\multicolumn{1}{c}{Share}&\multicolumn{1}{c}{Count}&\multicolumn{1}{c}{Share GM2020}&\multicolumn{1}{c}{Share ON}\\
+\hline
+copyright\_post1801&       0.407** &       0.104*  &       0.372   &      -0.192   &      0.0238   \\
+            &     (0.152)   &    (0.0466)   &     (0.213)   &     (0.106)   &    (0.0403)   \\
+\hline
+State FE    &           1   &           1   &           1   &           1   &           1   \\
+Year FE     &           1   &           1   &           1   &           1   &           1   \\
+\hline\hline
+\multicolumn{6}{l}{\footnotesize Standard errors in parentheses}\\
+\multicolumn{6}{l}{\footnotesize * p<0.05, ** p<0.01, *** p<0.001}\\
+\end{tabular}
+}

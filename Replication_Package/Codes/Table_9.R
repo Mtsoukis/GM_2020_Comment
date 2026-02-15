@@ -96,7 +96,7 @@ kable(
   tbl,
   format   = "latex",
   booktabs = TRUE,
-  align    = c("l", "r", "r", "r", "r"),
+  align    = c("l", "c", "c", "c", "c"),
   col.names = c("Group", "Pre-1801", "Post-1801", "Pre-1801", "Post-1801")
 ) |>
   add_header_above(c(" " = 1, "Lombardy" = 2, "Venetia" = 2)) |>

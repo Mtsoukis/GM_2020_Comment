@@ -1,0 +1,10 @@
+\begin{tabular}[t]{lcccccc}
+\toprule
+State & \multicolumn{3}{c}{1781--1800} & \multicolumn{3}{c}{1801--1820}\\
+\cmidrule(lr){2-4} \cmidrule(lr){5-7}
+ & main & composer & $\Delta$ & main & composer & $\Delta$\\
+\midrule
+Lombardy and Venetia & 63 & 62 & -1 & 182 & 210 & 28\\
+Other States & 162 & 172 & 10 & 250 & 260 & 10\\
+\bottomrule
+\end{tabular}
