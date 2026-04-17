@@ -197,7 +197,6 @@ lines <- c(
 
 writeLines(lines, file.path(tables_path, "Table_10.txt"))
 
-# How many Years do they crazy lie?!
 
 
 # ---- Years where GM2020 == 0 but Loewenberg >= 1, by Venetia / Lombardy / Other ----
