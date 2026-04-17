@@ -1,0 +1,1 @@
+This replication file produces slightly different outputs compared to the versions circulated in 2025. The main differences stem from small updates to the (Data_New/Opening_Night_Operas_it_raw.csv) file. Additionally, the pretrends are correctly calculated in Column 4 of Table 5. Finally, Table_4_2 offers an alternative version of Table 4; it's more internally consistent. 
