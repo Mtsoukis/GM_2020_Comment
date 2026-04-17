@@ -72,8 +72,10 @@ estadd scalar state_spec_pretrend = 0
 eststo model5
 
 esttab model1 model2 model3 model4 model5 using "${tables}/Table_8.txt", ///
-    keep(copyright_post1801) ///
+    keep(copyright_post1801 copyright) ///
+    order(copyright_post1801 copyright) ///
     se starlevels(* 0.05 ** 0.01 *** 0.001) ///
+    varlabels(copyright "Lombardy \& Venetia") ///
     stats(state_fe year_fe linear_pretrend_LV state_spec_pretrend, ///
           labels("State FE" "Year FE" "Linear pretrend for L&V" "State-specific linear pretrend")) ///
     replace tex
