@@ -33,13 +33,13 @@ bootstrap_paths <- local({
 
   candidate_dirs <- unique(c(candidate_dirs, getwd()))
   helper_candidates <- unique(c(
-    file.path(candidate_dirs, "..", "R", "replication_paths.R"),
-    file.path(candidate_dirs, "R", "replication_paths.R")
+    file.path(candidate_dirs, "_paths.R"),
+    file.path(candidate_dirs, "Codes", "_paths.R")
   ))
   helper_path <- helper_candidates[file.exists(helper_candidates)][1]
 
   if (!length(helper_path) || is.na(helper_path)) {
-    stop("Could not locate Replication_Package/R/replication_paths.R.", call. = FALSE)
+    stop("Could not locate Replication_Package/Codes/_paths.R.", call. = FALSE)
   }
 
   helper_path
