@@ -5,8 +5,8 @@
             &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}\\
             &\multicolumn{1}{c}{operas}&\multicolumn{1}{c}{operas}&\multicolumn{1}{c}{operas}&\multicolumn{1}{c}{operas}&\multicolumn{1}{c}{}\\
 \hline
-copyright\_post1801&       2.201   &       2.147   &       2.137   &       2.201   &       1.287   \\
-            &     (0.991)   &     (0.989)   &     (1.225)   &     (0.991)   &     (0.783)   \\
+copyright\_post1801&       2.201   &       2.147   &       2.137   &       2.054   &       1.287   \\
+            &     (0.991)   &     (0.989)   &     (1.225)   &     (1.251)   &     (0.783)   \\
 \hline
 State FE    &           1   &           0   &           1   &           1   &           1   \\
 Year FE     &           1   &           1   &           1   &           1   &           1   \\

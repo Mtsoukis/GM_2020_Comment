@@ -1,0 +1,36 @@
+\begin{table}[htbp]\centering
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\caption{Panel A: GM2020 operas\_1781\_1820.dta}
+\begin{tabular}{l*{8}{c}}
+\hline\hline
+            &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}&\multicolumn{1}{c}{(7)}&\multicolumn{1}{c}{(8)}\\
+            &\multicolumn{1}{c}{OLS}&\multicolumn{1}{c}{Poisson}&\multicolumn{1}{c}{OLS}&\multicolumn{1}{c}{Poisson}&\multicolumn{1}{c}{OLS}&\multicolumn{1}{c}{Poisson}&\multicolumn{1}{c}{OLS}&\multicolumn{1}{c}{Poisson}\\
+\hline
+copyright\_post1801&       2.078***&       2.120***&       1.048** &       0.747*  &       0.925***&       1.596***&       3.336***&       2.214***\\
+            &     (0.313)   &     (0.227)   &     (0.358)   &     (0.307)   &     (0.244)   &     (0.277)   &     (0.373)   &     (0.205)   \\
+\hline
+State FE    &           1   &           1   &           1   &           1   &           1   &           1   &           1   &           1   \\
+Year FE     &           1   &           1   &           1   &           1   &           1   &           1   &           1   &           1   \\
+\hline\hline
+\multicolumn{9}{l}{\footnotesize Standard errors in parentheses}\\
+\multicolumn{9}{l}{\footnotesize * p<0.05, ** p<0.01, *** p<0.001}\\
+\end{tabular}
+\end{table}
+\begin{table}[htbp]\centering
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\caption{Panel B: City-level data collapsed to the eight GM2020 states}
+\begin{tabular}{l*{8}{c}}
+\hline\hline
+            &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}&\multicolumn{1}{c}{(7)}&\multicolumn{1}{c}{(8)}\\
+            &\multicolumn{1}{c}{OLS}&\multicolumn{1}{c}{Poisson}&\multicolumn{1}{c}{OLS}&\multicolumn{1}{c}{Poisson}&\multicolumn{1}{c}{OLS}&\multicolumn{1}{c}{Poisson}&\multicolumn{1}{c}{OLS}&\multicolumn{1}{c}{Poisson}\\
+\hline
+copyright\_post1801&       1.239***&       1.216***&       2.014***&       1.726***&       0.414   &       1.118** &       2.196***&       1.468***\\
+            &     (0.266)   &     (0.236)   &     (0.336)   &     (0.237)   &     (0.220)   &     (0.381)   &     (0.328)   &     (0.226)   \\
+\hline
+State FE    &           1   &           1   &           1   &           1   &           1   &           1   &           1   &           1   \\
+Year FE     &           1   &           1   &           1   &           1   &           1   &           1   &           1   &           1   \\
+\hline\hline
+\multicolumn{9}{l}{\footnotesize Standard errors in parentheses}\\
+\multicolumn{9}{l}{\footnotesize * p<0.05, ** p<0.01, *** p<0.001}\\
+\end{tabular}
+\end{table}

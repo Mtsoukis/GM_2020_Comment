@@ -2,21 +2,65 @@
 rm(list = ls())
 options(stringsAsFactors = FALSE)
 options(scipen = 999)
+
+bootstrap_paths <- local({
+  cmd_args <- commandArgs(trailingOnly = FALSE)
+  file_arg <- grep("^--file=", cmd_args, value = TRUE)
+  candidate_dirs <- character(0)
+
+  if (length(file_arg)) {
+    candidate_dirs <- c(
+      candidate_dirs,
+      dirname(normalizePath(sub("^--file=", "", file_arg[1]), winslash = "/", mustWork = FALSE))
+    )
+  }
+
+  frames <- sys.frames()
+  ofiles <- vapply(
+    frames,
+    function(frame) {
+      ofile <- frame$ofile
+      if (is.null(ofile)) {
+        return(NA_character_)
+      }
+      normalizePath(ofile, winslash = "/", mustWork = FALSE)
+    },
+    character(1)
+  )
+  if (any(!is.na(ofiles))) {
+    candidate_dirs <- c(candidate_dirs, dirname(tail(ofiles[!is.na(ofiles)], 1)))
+  }
+
+  candidate_dirs <- unique(c(candidate_dirs, getwd()))
+  helper_candidates <- unique(c(
+    file.path(candidate_dirs, "..", "R", "replication_paths.R"),
+    file.path(candidate_dirs, "R", "replication_paths.R")
+  ))
+  helper_path <- helper_candidates[file.exists(helper_candidates)][1]
+
+  if (!length(helper_path) || is.na(helper_path)) {
+    stop("Could not locate Replication_Package/R/replication_paths.R.", call. = FALSE)
+  }
+
+  helper_path
+})
+source(bootstrap_paths, local = TRUE)
+rm(bootstrap_paths)
+
 # Packages
 library(tidyverse)  
 library(haven)    
 library(kableExtra)
-library(kableExtra)
 
-figure_path <- here::here("Figures")
-tables_path <- here::here("Tables")
+figure_path <- rp_path("Figures")
+tables_path <- rp_path("Tables")
 
 # Loewenberg data ----
-annals_path <-here::here("Data_New", "Loewenberg_1781_1820_it_raw.csv")
+annals_path <- rp_require_file("Data_New", "Loewenberg_1781_1820_it_raw.csv")
 annals <- read.csv(annals_path, header = TRUE)
 
 # GM2020 data
-gm_path <-here::here("Data_GM2020", "operas_1781_1820.dta")
+gm_path <- rp_require_file("Data_GM2020", "operas_1781_1820.dta")
 gm <- read_dta(gm_path) %>%
   select(year, state, operas_annals)
 
@@ -25,6 +69,25 @@ annals <- annals %>%
     year = as.integer(year),
     State_Region = as.character(State_Region)
   )
+
+to_state_slug <- function(x) {
+  dplyr::recode(
+    x,
+    "Papal"        = "papal_state",
+    "Venetia"      = "venetia",
+    "Due_Sicilie"  = "two_sicilies",
+    "Lombardia"    = "lombardy",
+    "Sardinia"     = "sardinia",
+    "Duchy_Parma"  = "d_parma",
+    "Toscana"      = "gd_tuscany",
+    "Duchy_Modena" = "d_modena",
+    .default = NA_character_
+  )
+}
+
+cap_words <- function(x) {
+  ifelse(is.na(x) | x == "", x, stringr::str_to_title(trimws(x)))
+}
 
 annals_count <- annals %>%
   group_by(State_Region, year) %>%
@@ -35,18 +98,7 @@ annals_count <- annals %>%
     fill = list(Count = 0)
   ) %>%
   mutate(
-    state = dplyr::recode(
-      State_Region,
-      "Papal"        = "papal_state",
-      "Venetia"      = "venetia",
-      "Due_Sicilie"  = "two_sicilies",
-      "Lombardia"    = "lombardy",
-      "Sardinia"     = "sardinia",
-      "Duchy_Parma"  = "d_parma",
-      "Toscana"      = "gd_tuscany",
-      "Duchy_Modena" = "d_modena",
-      .default = NA_character_
-    )
+    state = to_state_slug(State_Region)
   ) %>%
   select(year, state, Count)
 
@@ -201,27 +253,6 @@ keys <- years_with_gap %>%
          year  = as.integer(year)) %>%
   rename(State = group, Year = year)
 
-# ---- Helper: capitalize only the first character ----
-cap_first <- function(x) {
-  x <- if (is.factor(x)) as.character(x) else x
-  ifelse(is.na(x) | x == "", x,
-         paste0(toupper(substr(x, 1, 1)), substr(x, 2, nchar(x))))
-}
-
-# ---- Normalize Loewenberg rows to 3 groups & keep the needed columns ----
-# Uses CSV column names: Opera_Name, Composer, city, year, State_Region
-keys <- years_with_gap %>%
-  distinct(group, year) %>%
-  mutate(group = as.character(group),
-         year  = as.integer(year)) %>%
-  rename(State = group, Year = year)
-
-# ---- Helper: Capitalize first letter of EACH word (Composer only) ----
-cap_words <- function(x) {
-  ifelse(is.na(x) | x == "", x,
-         stringr::str_to_title(trimws(x)))
-}
-
 # ---- Normalize Loewenberg rows to 3 groups ----
 annals_enriched <- annals %>%
   mutate(
@@ -280,10 +311,6 @@ cat("\nSaved table to: ", out_path, "\n", sep = "")
 
 ## 2 groups
 
-library(dplyr)
-library(stringr)
-library(readr)
-
 # ---- Aggregate by 2 groups: Venetia+Lombardy vs Other states ----
 df_grouped <- annals_merged %>%
   mutate(group = dplyr::case_when(
@@ -324,29 +351,13 @@ keys <- years_with_gap %>%
          year  = as.integer(year)) %>%
   rename(Group = group, Year = year)
 
-# ---- Helper: title-case EACH word for Composer only ----
-cap_words <- function(x) {
-  ifelse(is.na(x) | x == "", x, stringr::str_to_title(trimws(x)))
-}
-
 # ---- Prepare Loewenberg rows with matching 2-group label ----
 # CSV columns: Opera_Name, Composer, city, year, State_Region
 annals_enriched <- annals %>%
   mutate(
     year         = as.integer(year),
     State_Region = as.character(State_Region),
-    state = dplyr::recode(
-      State_Region,
-      "Papal"        = "papal_state",
-      "Venetia"      = "venetia",
-      "Due_Sicilie"  = "two_sicilies",
-      "Lombardia"    = "lombardy",
-      "Sardinia"     = "sardinia",
-      "Duchy_Parma"  = "d_parma",
-      "Toscana"      = "gd_tuscany",
-      "Duchy_Modena" = "d_modena",
-      .default = NA_character_
-    ),
+    state = to_state_slug(State_Region),
     group = dplyr::case_when(
       state %in% c("venetia", "lombardy") ~ "Lombardy–Venetia",
       TRUE                                 ~ "Other states"
@@ -401,30 +412,12 @@ cat("\nSaved table to: ", out_path, "\n", sep = "")
 # ---- Build (state, year) keys from computed years_with_gap ----
 # Build (state, year) keys robustly from the state-level summary
 
-
-library(dplyr)
-library(readr)
-library(stringr)
-
-cap_words <- function(x) ifelse(is.na(x) | x == "", x, stringr::str_to_title(trimws(x)))
-
 # Ensure Loewenberg rows have slug `state`
 annals_enriched_state <- annals %>%
   mutate(
     year         = as.integer(year),
     State_Region = as.character(State_Region),
-    state = dplyr::recode(
-      State_Region,
-      "Papal"        = "papal_state",
-      "Venetia"      = "venetia",
-      "Due_Sicilie"  = "two_sicilies",
-      "Lombardia"    = "lombardy",
-      "Sardinia"     = "sardinia",
-      "Duchy_Parma"  = "d_parma",
-      "Toscana"      = "gd_tuscany",
-      "Duchy_Modena" = "d_modena",
-      .default = NA_character_
-    )
+    state = to_state_slug(State_Region)
   ) %>%
   select(state, year, Opera = Opera_Name, Composer, City = city)
 

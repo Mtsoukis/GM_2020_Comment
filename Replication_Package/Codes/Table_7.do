@@ -13,7 +13,13 @@ use "${data_gm}/composer_level_data.dta", clear
 duplicates drop composer_id, force
 isid composer_id
 
-tab tot_operas
+quietly _pctile tot_operas, p(80 90)
+scalar top20_threshold = r(r1)
+scalar top10_threshold = r(r2)
+
+di as text "Composer tot_operas thresholds from unique composers:"
+di as result "  Top 20% threshold (80th percentile): " %9.0g scalar(top20_threshold)
+di as result "  Top 10% threshold (90th percentile): " %9.0g scalar(top10_threshold)
 
 clear all
 
@@ -27,7 +33,7 @@ gen `variable'_share=`variable'/comp_operas
 
 
 
-*Copying from GM2020, but changing the thresholds from 30 (Panel B) and 20 (Panel C) to 7 and 3, respectively.
+*Copying from GM2020, but changing the thresholds from 30 (Panel B) and 20 (Panel C) to 7 and 3, respectively. It's justified above. 
 
 
 ***********PANEL B: EXCLUDING TOP 10% COMPOSERS****************************************
@@ -113,4 +119,3 @@ esttab c1 c2 c3 c4 c5 c6 c7 using "${tables}/Table_7.txt", ///
     se starlevels(* 0.05 ** 0.01 *** 0.001) ///
     mtitles("All" "Annals Cnt" "Annals Shr" "Met Cnt" "Met Shr" "Amazon Cnt" "Amazon Shr") ///
     append tex title("Panel C: Excluding Top 20% Composers")
-

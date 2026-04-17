@@ -16,14 +16,14 @@ xtset state1 year
 
 * Column 1: with state and year fixed effects
 reg operas copyright_post1801 i.state1 i.year, nocon cluster(cluster)
-estadd scalar year_fe = 1
-estadd scalar state_fe = 1
+estadd local year_fe "Yes"
+estadd local state_fe "Yes"
 eststo a1
 
 * Column 2: with treated indicator and year fixed effects
 reg operas copyright_post1801 copyright i.year, nocon cluster(cluster)
-estadd scalar year_fe = 1
-estadd scalar state_fe = 0
+estadd local year_fe "Yes"
+estadd local state_fe "No"
 eststo a2
 
 /*******************************************************************************
@@ -40,29 +40,34 @@ encode state, gen(state1)
 xtset state1 post1801
 
 * Column 1: with state fixed effects
-reg operas treat_post post1801 i.state1, vce(robust) nocon
+reg operas treat_post post1801 i.state1, vce(cluster state1) nocon
 
-* I suppose it's better to do this: reg operas treat_post post1801 i.state1, vce(cluster state1) nocon
-* but the other one works too- gives more benefit of the doubt to Giorcelli & Moser. 
-
-estadd scalar year_fe = 1
-estadd scalar state_fe = 1
+estadd local year_fe "Yes"
+estadd local state_fe "Yes"
 eststo b1
 
 * Column 2: with treated dummy instead of state fixed effects
-reg operas treat_post post1801 treated, vce(robust) nocon
-estadd scalar year_fe = 1
-estadd scalar state_fe = 0
+reg operas treat_post post1801 treated, vce(cluster state1) nocon
+estadd local year_fe "Yes"
+estadd local state_fe "No"
 eststo b2
 
-esttab a1 a2 using "${tables}/Table_6.txt", ///
-    keep(copyright_post1801) ///
+esttab a1 a2 using "${tables}/Table_6a.txt", ///
+    keep(copyright_post1801 copyright) ///
+    order(copyright_post1801 copyright) ///
+    coeflabels(copyright_post1801 "Lombardy \& Venetia × post" ///
+               copyright "Lombardy \& Venetia") ///
     se starlevels(* 0.05 ** 0.01 *** 0.001) ///
+    mtitles("OLS" "OLS") ///
     stats(state_fe year_fe, labels("State FE" "Year FE")) ///
     replace tex title("Panel A: GM2020 Original Specification")
 
-esttab b1 b2 using "${tables}/Table_6.txt", ///
-    keep(treat_post) ///
+esttab b1 b2 using "${tables}/Table_6b.txt", ///
+    keep(treat_post treated) ///
+    order(treat_post treated) ///
+    coeflabels(treat_post "Lombardy \& Venetia × post" ///
+               treated "Lombardy \& Venetia") ///
     se starlevels(* 0.05 ** 0.01 *** 0.001) ///
+    mtitles("OLS" "OLS") ///
     stats(state_fe year_fe, labels("State FE" "Year FE")) ///
-    append tex title("Panel B: GM2020 Corrected Specification")
+    replace tex title("Panel B: GM2020 Corrected Specification")

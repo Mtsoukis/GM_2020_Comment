@@ -7,23 +7,30 @@ clear
 use "${data_gm}/operas_1781_1820.dta"
 xtset state1 year
 
-drop pretrend_lombardy pretrend_modena pretrend_papal_state pretrend_parma pretrend_tuscany pretrend_venetia pretrend_sicily pretrend_sardinia linear_pretrend
+* Rebuild the pretrend variables explicitly so the specification does not
+* depend on any shipped intermediate columns in the dataset. I explain in 3.3 why their pre-trends are not correct. Regardless, their preferred regression is reported in column 1.  
+capture drop prebase
+capture drop linear_pretrend
+capture drop pretrend_modena
+capture drop pretrend_parma
+capture drop pretrend_tuscany
+capture drop pretrend_lombardy
+capture drop pretrend_papal_state
+capture drop pretrend_sardinia
+capture drop pretrend_sicily
+capture drop pretrend_venetia
 
-
-* Base pre-period trend: years since 1780 up to 1800
 gen prebase = cond(year <= 1800, year - 1801, 0)
-
 gen linear_pretrend = prebase * (copyright == 1)
 
-* State-specific pretrends
-gen pretrend_modena      = prebase * (state == "Duchy_Modena")
-gen pretrend_parma       = prebase * (state == "Duchy_Parma")
-gen pretrend_tuscany     = prebase * (state == "Toscana")
-gen pretrend_lombardy    = prebase * (state == "Lombardia")
-gen pretrend_papal_state = prebase * (state == "Papal")
-gen pretrend_sardinia    = prebase * (state == "Sardinia")
-gen pretrend_sicily      = prebase * (state == "Due_Sicilie")
-gen pretrend_venetia     = prebase * (state == "Venetia")
+gen pretrend_modena      = prebase * (state == "d_modena")
+gen pretrend_parma       = prebase * (state == "d_parma")
+gen pretrend_tuscany     = prebase * (state == "gd_tuscany")
+gen pretrend_lombardy    = prebase * (state == "lombardy")
+gen pretrend_papal_state = prebase * (state == "papal_state")
+gen pretrend_sardinia    = prebase * (state == "sardinia")
+gen pretrend_sicily      = prebase * (state == "two_sicilies")
+gen pretrend_venetia     = prebase * (state == "venetia")
 
 
 

@@ -5,6 +5,6 @@
 Group & Pre-1801 & Post-1801 & Pre-1801 & Post-1801\\
 \midrule
 MG2020 & 14 & 50 & 8 & 40\\
-ON & 29 & 19 & 43 & 33\\
+ON & 27 & 19 & 42 & 33\\
 \bottomrule
 \end{tabular}

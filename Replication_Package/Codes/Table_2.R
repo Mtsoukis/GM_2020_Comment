@@ -1,5 +1,50 @@
+rm(list = ls())
+
+bootstrap_paths <- local({
+  cmd_args <- commandArgs(trailingOnly = FALSE)
+  file_arg <- grep("^--file=", cmd_args, value = TRUE)
+  candidate_dirs <- character(0)
+
+  if (length(file_arg)) {
+    candidate_dirs <- c(
+      candidate_dirs,
+      dirname(normalizePath(sub("^--file=", "", file_arg[1]), winslash = "/", mustWork = FALSE))
+    )
+  }
+
+  frames <- sys.frames()
+  ofiles <- vapply(
+    frames,
+    function(frame) {
+      ofile <- frame$ofile
+      if (is.null(ofile)) {
+        return(NA_character_)
+      }
+      normalizePath(ofile, winslash = "/", mustWork = FALSE)
+    },
+    character(1)
+  )
+  if (any(!is.na(ofiles))) {
+    candidate_dirs <- c(candidate_dirs, dirname(tail(ofiles[!is.na(ofiles)], 1)))
+  }
+
+  candidate_dirs <- unique(c(candidate_dirs, getwd()))
+  helper_candidates <- unique(c(
+    file.path(candidate_dirs, "..", "R", "replication_paths.R"),
+    file.path(candidate_dirs, "R", "replication_paths.R")
+  ))
+  helper_path <- helper_candidates[file.exists(helper_candidates)][1]
+
+  if (!length(helper_path) || is.na(helper_path)) {
+    stop("Could not locate Replication_Package/R/replication_paths.R.", call. = FALSE)
+  }
+
+  helper_path
+})
+source(bootstrap_paths, local = TRUE)
+rm(bootstrap_paths)
+
 # Packages
-library(here)
 library(haven)
 library(knitr)
 library(kableExtra)
@@ -14,7 +59,7 @@ files <- c(
   "operas_1781_1820.dta"
 )
 base_names <- tools::file_path_sans_ext(files)
-paths <- setNames(here::here("Data_GM2020", files), base_names)
+paths <- setNames(rp_path("Data_GM2020", files), base_names)
 
 # Exact columns per file for Annals, Amazon, Met
 col_map <- list(
@@ -99,7 +144,7 @@ latex_tabular <- stringr::str_extract(
   "\\\\begin\\{tabular\\}[\\s\\S]*?\\\\end\\{tabular\\}"
 )
 
-out_file <- here::here("Tables", "Table_2.txt")
+out_file <- rp_path("Tables", "Table_2.txt")
 dir.create(dirname(out_file), recursive = TRUE, showWarnings = FALSE)
 writeLines(latex_tabular, out_file)
 
@@ -135,7 +180,6 @@ latex_tabular <- stringr::str_extract(
 )
 
 # Save
-out_file <- here::here("Tables", "Table_2.txt")
+out_file <- rp_path("Tables", "Table_2.txt")
 dir.create(dirname(out_file), recursive = TRUE, showWarnings = FALSE)
 writeLines(latex_tabular, out_file)
-

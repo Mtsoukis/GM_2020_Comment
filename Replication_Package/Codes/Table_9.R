@@ -4,6 +4,50 @@
 rm(list = ls())
 options(stringsAsFactors = FALSE, scipen = 999)
 
+bootstrap_paths <- local({
+  cmd_args <- commandArgs(trailingOnly = FALSE)
+  file_arg <- grep("^--file=", cmd_args, value = TRUE)
+  candidate_dirs <- character(0)
+
+  if (length(file_arg)) {
+    candidate_dirs <- c(
+      candidate_dirs,
+      dirname(normalizePath(sub("^--file=", "", file_arg[1]), winslash = "/", mustWork = FALSE))
+    )
+  }
+
+  frames <- sys.frames()
+  ofiles <- vapply(
+    frames,
+    function(frame) {
+      ofile <- frame$ofile
+      if (is.null(ofile)) {
+        return(NA_character_)
+      }
+      normalizePath(ofile, winslash = "/", mustWork = FALSE)
+    },
+    character(1)
+  )
+  if (any(!is.na(ofiles))) {
+    candidate_dirs <- c(candidate_dirs, dirname(tail(ofiles[!is.na(ofiles)], 1)))
+  }
+
+  candidate_dirs <- unique(c(candidate_dirs, getwd()))
+  helper_candidates <- unique(c(
+    file.path(candidate_dirs, "..", "R", "replication_paths.R"),
+    file.path(candidate_dirs, "R", "replication_paths.R")
+  ))
+  helper_path <- helper_candidates[file.exists(helper_candidates)][1]
+
+  if (!length(helper_path) || is.na(helper_path)) {
+    stop("Could not locate Replication_Package/R/replication_paths.R.", call. = FALSE)
+  }
+
+  helper_path
+})
+source(bootstrap_paths, local = TRUE)
+rm(bootstrap_paths)
+
 # =========================
 # Libraries
 # =========================
@@ -15,9 +59,9 @@ library(kableExtra)
 # =========================
 # Paths
 # =========================
-ON_dta <- here::here("Data_New", "Opening_Night_Operas_it_raw.csv")
-mg_dta <- here::here("Data_GM2020", "operas_1781_1820.dta")
-out_file <- here::here("Tables", "Table_9.txt")
+ON_dta <- rp_require_file("Data_New", "Opening_Night_Operas_it_raw.csv")
+mg_dta <- rp_require_file("Data_GM2020", "operas_1781_1820.dta")
+out_file <- rp_path("Tables", "Table_9.txt")
 
 df <- read.csv(ON_dta, header = TRUE, stringsAsFactors = FALSE)
 
@@ -41,7 +85,7 @@ make_on_no_capital <- function(data, region_name, capital_city, year_col, state_
     arrange(.data[[year_col]]) %>%
     transmute(Year = as.numeric(.data[[year_col]]),
               Production = as.numeric(Production),
-              Group = "ON Dataset")
+              Group = "ON")
 }
 
 # Build ON datasets, excluding capitals
@@ -66,31 +110,34 @@ mg_venetia <- mg %>%
             Group = "MG2020")
 
 # =========================
-# Build & PRINT period-sum tables (Pre-1801 vs Post-1801)
+# Build the final table from the inferred ON / GM2020 totals
 # =========================
-make_period_table <- function(on_df, mg_df, caption_text) {
+build_period_summary <- function(on_df, mg_df, region_label) {
   bind_rows(on_df, mg_df) %>%
     mutate(Period = if_else(Year < 1801, "Pre-1801", "Post-1801")) %>%
     group_by(Group, Period) %>%
     summarise(Total_Production = sum(Production, na.rm = TRUE), .groups = "drop") %>%
+    tidyr::complete(
+      Group = c("MG2020", "ON"),
+      Period = c("Pre-1801", "Post-1801"),
+      fill = list(Total_Production = 0)
+    ) %>%
     pivot_wider(names_from = Period, values_from = Total_Production) %>%
-    select(Group, `Pre-1801`, `Post-1801`) %>%
-    kable(align = c("l", "r", "r"), caption = caption_text)
+    transmute(
+      Group,
+      !!paste0(region_label, "_Pre-1801") := `Pre-1801`,
+      !!paste0(region_label, "_Post-1801") := `Post-1801`
+    )
 }
 
-make_period_table(on_lombardy, mg_lombardy, "Operas_Differences_Lombardy")
-make_period_table(on_venetia,  mg_venetia,  "Operas_Differences_Venetia")
-
-#Format it nicely:
-
-tbl <- data.frame(
-  Group = c("MG2020", "ON"),
-  `Lombardy_Pre-1801`  = c(14, 29),
-  `Lombardy_Post-1801` = c(50, 19),
-  `Venetia_Pre-1801`   = c(8,  43),
-  `Venetia_Post-1801`  = c(40, 33),
-  check.names = FALSE
-)
+tbl <- build_period_summary(on_lombardy, mg_lombardy, "Lombardy") %>%
+  left_join(
+    build_period_summary(on_venetia, mg_venetia, "Venetia"),
+    by = "Group"
+  ) %>%
+  mutate(Group = factor(Group, levels = c("MG2020", "ON"))) %>%
+  arrange(Group) %>%
+  mutate(Group = as.character(Group))
 
 kable(
   tbl,

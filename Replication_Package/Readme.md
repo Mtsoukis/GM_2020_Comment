@@ -1,1 +1,43 @@
-This folder contains the code I use to support my analysis of the comment. It is in a mixture of R and Stata, owing to my use of R generally and the original replication package of GM2020 being in Stata. Running `Master.R` should be straightforward and should require no path change; open the package located at the `Replication_Package` folder. Running `Master.do` resolves the project root with `here`, it executes all Stata scripts with those paths. The input data is either from `Data_New`, which is data I collected, or from `Data_GM2020`, which is a folder containing all the data from the replication package of Giorcelli and Moser (2020), as found at the website of the Journal of Political Economy.
+# Replication Package
+
+This folder is the self-contained replication package for the project. The package is organized so that paths resolve relative to `Replication_Package/`, which makes the code more robust after a fresh GitHub download.
+
+## Structure
+
+- `Codes/`: analysis scripts
+- `Data_GM2020/`: GM2020 source data and related code
+- `Data_New/`: newly constructed data
+- `Figures/`: generated figures
+- `Tables/`: generated tables
+
+## Recommended Entry Points
+
+Run the R scripts from either location:
+
+```bash
+cd Replication_Package
+Rscript Codes/Master.R
+```
+
+or
+
+```bash
+Rscript Replication_Package/Codes/Master.R
+```
+
+Run the Stata scripts from the package root:
+
+```stata
+cd "Replication_Package"
+do Codes/Master.do
+```
+
+## Dependencies
+
+### R
+
+The R scripts use packages including `tidyverse`, `haven`, `fixest`, `knitr`, `kableExtra`, `stringr`, and `extrafont`.
+
+### Stata
+
+The Stata scripts expect the community packages `here` and `estout`/`esttab`. The master script installs missing packages when possible.
